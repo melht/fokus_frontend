@@ -1,116 +1,70 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 
-const goals = [
-  {
-    id: '1',
-    name: 'Learn React Native',
-    description: 'Build a mobile app using React Native framework.',
-    startDate: '2024-01-01',
-    endDate: '2024-03-01',
-  },
-  {
-    id: '2',
-    name: 'Exercise Regularly',
-    description: 'Go to the gym 4 times a week to improve fitness.',
-    startDate: '2024-02-01',
-    endDate: '2024-06-01',
-  },
-  {
-    id: '3',
-    name: 'Read More Books',
-    description: 'Finish reading 5 books by the end of the year.',
-    startDate: '2024-01-15',
-    endDate: '2024-12-15',
-  },
-];
-
-export default function GoalsScreen({ navigation }) {
-  const renderGoalCard = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{item.name}</Text>
-      <Text style={styles.cardDescription}>{item.description}</Text>
-      <Text style={styles.cardDates}>
-        Start: {item.startDate} | End: {item.endDate}
-      </Text>
-      <View style={styles.buttonContainer}>
-        {item.id === '1' && (
+export default function HomeScreen({ navigation }) {
+  return (
+    <ImageBackground source={require('../assets/4.png')} style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Welcome to Fokus</Text>
+        <Text style={styles.subtitle}>Your personalized goal management tool.</Text>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Tasks', { goal: item })}
+            onPress={() => navigation.navigate('SignIn')}
           >
-            <Text style={styles.buttonText}>View Goal</Text>
+            <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
-        )}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text style={styles.buttonText}>Log In</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
-
-  return (
-    <View style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Text style={styles.title}>My Goals</Text>
-        <FlatList
-          data={goals}
-          renderItem={renderGoalCard}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContainer}
-        />
-      </SafeAreaView>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 16,
-    color: '#333',
+    color: '#fff', // Para que destaque en el fondo
+    marginBottom: 20,
   },
-  listContainer: {
-    paddingHorizontal: 16,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  cardTitle: {
+  subtitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  cardDescription: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 8,
-  },
-  cardDates: {
-    fontSize: 12,
-    color: '#777',
-    marginBottom: 16,
+    color: '#fff', // Para que destaque en el fondo
+    textAlign: 'center',
+    marginBottom: 40,
   },
   buttonContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
   },
   button: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: '#fff', // Fondo blanco
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // Sombra para Android
+    marginHorizontal: 10,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 14,
+    color: '#333', // Color del texto
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },

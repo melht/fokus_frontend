@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
+import { ImageBackground } from 'react-native-web';
 
 export default function SignInScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <TextInput style={styles.input} placeholder="Enter email" />
-      <TextInput style={styles.input} placeholder="Enter password" secureTextEntry />
-      <Button title="Sign Up" onPress={() => navigation.navigate('Login')} />
-    </View>
+    <ImageBackground source={require('../assets/5.png')} style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Sign Up</Text>
+        <TextInput style={styles.input} placeholder="Enter email" />
+        <TextInput style={styles.input} placeholder="Enter password" secureTextEntry />
+        <Button title="Sign Up" onPress={() => navigation.navigate('Login')} />
+      </View>
+    </ImageBackground>
   );
 }
 

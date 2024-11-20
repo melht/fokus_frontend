@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
-export default function ProfileScreen() {
-  // Estados para almacenar el nombre y la contraseña
-  const [name, setName] = useState('John Doe');
-  const [password, setPassword] = useState('password123');
-
-  const handleSave = () => {
-    // Aquí podrías agregar la lógica para guardar los cambios en el backend o en almacenamiento local
-    Alert.alert('Perfil actualizado', `Nombre: ${name}\nContraseña: ${password}`);
-  };
+export default function ProfileScreen({ navigation }) {
+  const name = 'John Doe';
+  const email = 'johndoe@example.com';
+  const password = 'password123';
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Editar Perfil</Text>
+      <Text style={styles.title}>Profile</Text>
 
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-        placeholder="Nombre"
+      <View style={styles.infoCard}>
+        <Text style={styles.label}>Email</Text>
+        <Text style={styles.value}>{email}</Text>
+      </View>
+
+      <View style={styles.infoCard}>
+        <Text style={styles.label}>Username</Text>
+        <Text style={styles.value}>{name}</Text>
+      </View>
+
+      <View style={styles.infoCard}>
+        <Text style={styles.label}>Password</Text>
+        <Text style={styles.value}>{'*'.repeat(password.length)}</Text>
+      </View>
+
+      <Button
+        title="Edit Profile"
+        color="#4CAF50"
+        onPress={() => navigation.navigate('EditProfile', { name, email, password })}
       />
-
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Contraseña"
-        secureTextEntry
-      />
-
-      <Button title="Guardar Cambios" onPress={handleSave} />
     </View>
   );
 }
@@ -39,20 +38,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    backgroundColor: '#F5F5F5',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
     textAlign: 'center',
+    marginBottom: 30,
+    color: '#333',
   },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius: 4,
+  infoCard: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#666',
+    marginBottom: 5,
+  },
+  value: {
+    fontSize: 18,
+    color: '#333',
   },
 });
+
