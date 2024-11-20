@@ -7,7 +7,7 @@ export default function LoginScreen({ navigation }) {
       <Text style={styles.title}>Login</Text>
       <TextInput style={styles.input} placeholder="Enter email" />
       <TextInput style={styles.input} placeholder="Enter password" secureTextEntry />
-      <Button title="Login" onPress={() => navigation.navigate('Content')} />
+      <Button title="Login" onPress={() => navigation.navigate('GoalsScreen')} />
     </View>
   );
 }
