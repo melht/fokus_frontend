@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5, // Sombra para Android
+    elevation: 5,
     marginHorizontal: 10,
   },
   buttonText: {
