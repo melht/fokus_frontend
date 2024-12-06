@@ -8,7 +8,7 @@ export default function ProfileScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
+/*
 
   const handleLogout = async () => {
     try {
@@ -20,7 +20,7 @@ export default function ProfileScreen({ navigation }) {
       Alert.alert('Error', 'Could not log out. Please try again.');
     }
   };
-
+*/
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
@@ -52,6 +52,7 @@ export default function ProfileScreen({ navigation }) {
           color="#F44336"
           onPress={handleLogout}
         />
+        
       </View>
     </View>
   );

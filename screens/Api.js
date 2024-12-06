@@ -7,6 +7,19 @@ const api = axios.create({
     },
 });
 
+api.interceptors.request.use(async (config) => {
+    const token = await AsyncStorage.getItem('token');
+    if (token && config.url !== '/login') {
+        console.log('Añadiendo token para:', config.url);
+        config.headers.Authorization = `Bearer ${token}`;
+    } else if (!token) {
+        console.log('No token found para:', config.url);
+    }
+    return config;
+});
+
+
+/*
 // Interceptor para incluir el token en las peticiones
 api.interceptors.request.use(async (config) => {
     const token = await AsyncStorage.getItem('token'); // Guarda y obtén el token usando AsyncStorage
@@ -15,5 +28,5 @@ api.interceptors.request.use(async (config) => {
     }
     return config;
 });
-  
+*/
   export default api;

@@ -55,7 +55,7 @@ export default function SignInScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.replace('Home')}
           >
             <Text style={styles.buttonText}>Back</Text>
           </TouchableOpacity>

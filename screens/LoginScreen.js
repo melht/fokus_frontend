@@ -8,8 +8,14 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = async() => {
+    console.log("Removing token...");
+    await AsyncStorage.removeItem('token'); // Limpia cualquier token existente
+    console.log("Token removed");
+
+
     console.log("Login button pressed");
     try {
+      console.log("Attempting login...");
       const response = await loginUser(email, password);
       Alert.alert('Successful login ', 'Welcome');
       navigation.navigate('Goals');
@@ -48,7 +54,7 @@ export default function LoginScreen({ navigation }) {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.replace('Home')}
           >
             <Text style={styles.buttonText}>Back</Text>
           </TouchableOpacity>

@@ -24,9 +24,13 @@ export const loginUser = async (email, password) => {
     try {
 
         console.log("login try");
+        console.log("Email: ", email);
+        console.log("Password: ", password);
+        
 
         const response = await api.post('/login', { email, password });
-        const { token } = response.data; // Esto fallará si `access_token` no existe
+        const { token } = response.data;
+        console.log("Token: ", token);
 
         await AsyncStorage.setItem('token', token); // Guardamos el token en AsyncStorage
         return response.data;
