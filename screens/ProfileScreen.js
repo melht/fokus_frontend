@@ -1,10 +1,25 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useEfect, useState } from 'react';
+import { View, Text, StyleSheet, Button, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUserData } from './Auth';
 
 export default function ProfileScreen({ navigation }) {
-  const name = 'John Doe';
-  const email = 'johndoe@example.com';
-  const password = 'password123';
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('token'); // Elimina el token del almacenamiento
+      Alert.alert('Logged out', 'You have been logged out.');
+      navigation.replace('Login'); // Navega a la pantalla de Login
+    } catch (error) {
+      console.error('Error during logout:', error);
+      Alert.alert('Error', 'Could not log out. Please try again.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -16,7 +31,7 @@ export default function ProfileScreen({ navigation }) {
       </View>
 
       <View style={styles.infoCard}>
-        <Text style={styles.label}>Username</Text>
+        <Text style={styles.label}>Name</Text>
         <Text style={styles.value}>{name}</Text>
       </View>
 
@@ -30,6 +45,14 @@ export default function ProfileScreen({ navigation }) {
         color="#4CAF50"
         onPress={() => navigation.navigate('EditProfile', { name, email, password })}
       />
+
+      <View style={{ marginTop: 20 }}>
+        <Button
+          title="Log Out"
+          color="#F44336"
+          onPress={handleLogout}
+        />
+      </View>
     </View>
   );
 }
@@ -69,4 +92,5 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
+
 

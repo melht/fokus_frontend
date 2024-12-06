@@ -1,24 +1,57 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, Button, Alert } from 'react-native';
+import { registerUser } from './Auth';
+
 
 export default function SignInScreen({ navigation }) {
+
+  const [name, setName ] = useState('');
+  const [email, setEmail ] = useState('');
+  const [password, setPassword ] = useState('');
+
+  const handleSignIn = async() => {
+    console.log("Sign in button pressed");
+    try {
+      const response = await registerUser(name, email, password);
+      Alert.alert('Successful sign in ', 'Proceed with log in');
+      navigation.navigate('Login');
+    } catch (error) {
+      Alert.alert('Error', 'Wrong info');
+    }
+  }
+
   return (
     <ImageBackground source={require('../assets/5.png')} style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Text style={styles.title}>Sign Up</Text>
-        <TextInput style={styles.input} placeholder="Enter email" placeholderTextColor="#aaa" />
+        <Text style={styles.title}>Sign In</Text>
+        <TextInput 
+          style={styles.input}
+          placeholder="Enter name" 
+          placeholderTextColor="#aaa" 
+          value={name} 
+          onChangeText={setName} />
+
+        <TextInput 
+          style={styles.input}
+          placeholder="Enter email" 
+          placeholderTextColor="#aaa"
+          value={email} 
+          onChangeText={setEmail}/>
+        
         <TextInput
           style={styles.input}
           placeholder="Enter password"
           placeholderTextColor="#aaa"
-          secureTextEntry
-        />
+          value={password} 
+          onChangeText={setPassword}
+          secureTextEntry/>
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Login')}
+            onPress={handleSignIn}
           >
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}

@@ -1,33 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-
-const initialGoals = [
-  {
-    id: '1',
-    title: 'Learn React Native',
-    description: 'Build a mobile app using React Native framework.',
-    category: 'Education',
-  },
-  {
-    id: '2',
-    title: 'Exercise Regularly',
-    description: 'Go to the gym 4 times a week to improve fitness.',
-    category: 'Health',
-  },
-  {
-    id: '3',
-    title: 'Read More Books',
-    description: 'Finish reading 5 books by the end of the year.',
-    category: 'Personal Development',
-  },
-];
+import { ActivityIndicator } from 'react-native';
+import { getGoals } from './Auth';
 
 export default function GoalsScreen() {
-  const [goals, setGoals] = useState(initialGoals);
+  const [goals, setGoals] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
+  // func delete goal
   const handleDeleteGoal = (id) => {
     Alert.alert('Delete Goal', 'Are you sure you want to delete this goal?', [
       { text: 'Cancel', style: 'cancel' },
@@ -35,11 +18,27 @@ export default function GoalsScreen() {
     ]);
   };
 
+  useEffect(() => {
+    const fetchGoals = async () => {
+      try {
+        const data = await getGoals();  // Llama a la función que trae los objetivos del backend
+        setGoals(data);  // Guarda los objetivos en el estado
+      } catch (error) {
+        console.error('Error fetching goals:', error);
+        Alert.alert('Error', 'Could not fetch goals.');
+      } finally {
+        setLoading(false);  // Detiene el indicador de carga cuando la solicitud haya terminado
+      }
+    };
+
+    fetchGoals();
+  }, []);
+
+  
   const renderGoalCard = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
       <Text style={styles.cardCategory}>Category: {item.category}</Text>
-      <Text style={styles.cardDescription}>{item.description}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -47,6 +46,7 @@ export default function GoalsScreen() {
         >
           <Text style={styles.buttonText}>View</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.buttonDelete}
           onPress={() => handleDeleteGoal(item.id)}
@@ -56,6 +56,14 @@ export default function GoalsScreen() {
       </View>
     </View>
   );
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -76,6 +84,7 @@ export default function GoalsScreen() {
       </SafeAreaView>
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({

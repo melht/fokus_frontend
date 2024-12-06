@@ -3,10 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //----------------------------------USER----------------------------------
 // Register
-export const registerUser = async (userData) => {
+export const registerUser = async (name, email, password) => {
     try {
-        const response = await api.post('/register', userData);
+        console.log("Sign In try");
+        console.log("Name: ", name);
+        console.log("Email: ", email);
+        console.log("Password: ", password);
+
+        const response = await api.post('/register', {name, email, password});
         return response.data;
+
     } catch (error) {
         console.error('Registration error: ', error.response.data);
         throw error;
@@ -16,10 +22,13 @@ export const registerUser = async (userData) => {
 // Login
 export const loginUser = async (email, password) => {
     try {
-        const response = await api.post('/login', { email, password });
-        const { access_token } = response.data;
 
-        await AsyncStorage.setItem('token', access_token); // Guardamos el token en AsyncStorage
+        console.log("login try");
+
+        const response = await api.post('/login', { email, password });
+        const { token } = response.data; // Esto fallará si `access_token` no existe
+
+        await AsyncStorage.setItem('token', token); // Guardamos el token en AsyncStorage
         return response.data;
 
     } catch (error) {

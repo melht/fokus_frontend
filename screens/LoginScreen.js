@@ -1,24 +1,60 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, Button, Alert } from 'react-native';
+import { loginUser } from './Auth';
 
 export default function LoginScreen({ navigation }) {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async() => {
+    console.log("Login button pressed");
+    try {
+      const response = await loginUser(email, password);
+      Alert.alert('Successful login ', 'Welcome');
+      navigation.navigate('Goals');
+
+    } catch (error) {
+      Alert.alert('Error', 'Wrong credentials');
+    }
+  }
+
+
   return (
     <ImageBackground source={require('../assets/5.png')} style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
-        <TextInput style={styles.input} placeholder="Enter email" placeholderTextColor="#aaa" />
+        <TextInput 
+          style={styles.input} 
+          placeholder="Enter email" 
+          placeholderTextColor="#aaa" 
+          value={email} 
+          onChangeText={setEmail}/>
         <TextInput
           style={styles.input}
           placeholder="Enter password"
           placeholderTextColor="#aaa"
+          value={password} 
+          onChangeText={setPassword}
           secureTextEntry
         />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Goals')}
-        >
-          <Text style={styles.buttonText}>Log In</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleLogin}
+          >
+            <Text style={styles.buttonText}>Log In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
+        </View>
+
+
       </View>
     </ImageBackground>
   );
@@ -60,6 +96,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     marginTop: 20,
+    marginHorizontal:10
   },
   buttonText: {
     color: '#333',
@@ -67,4 +104,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  }
 });
